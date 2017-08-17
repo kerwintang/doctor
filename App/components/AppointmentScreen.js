@@ -1,33 +1,74 @@
 import React, { Component } from 'react';
-import { Platform, Linking, View, Text, Image, TouchableWithoutFeedback } from 'react-native';
+import { Platform, StyleSheet,  Linking, View, Text, Image, TouchableWithoutFeedback } from 'react-native';
 import { connect } from 'react-redux';
+
+const styles = StyleSheet.create({
+	section: {
+		flexDirection:'column',
+		alignItems:'center',
+		width:"100%",
+		padding:10,
+		margin:10,
+		backgroundColor:"#EEEEEE"
+	},
+	  sectionHeader: {
+	    fontWeight:"bold",
+	    fontSize:15,
+	  },
+	  vitals: {
+		  flexDirection:"column"
+	  }
+	});
 
 
 const DumbAppointmentScreen = (props) => (
 	<View style={{
   	    position: 'absolute',
-  	    top: 30,
-  	    left: 20,
-  	    right: 20,
-  	    bottom: 30,
+  	    top: 5,
+  	    left: 5,
+  	    right: 5,
+  	    bottom: 5,
   	    backgroundColor:'white',
   	    borderRadius:10,
   	    flexDirection:'column',
   	    alignItems:'center',
 	}}>
 		<View style={{
-			flexDirection:'column',
-			alignItems:'center',
-		}}>
-			<Text style={{fontSize:30}}>Sun., Aug. 13, 2017</Text>
-			<Text>Dr. Apostol</Text>
-		</View>
-		<View style={{
 			flexDirection:'row',
 			alignItems:'center',
-			borderWidth:1
 		}}>
-			<Text>Take medicine 3x a day before bedtime</Text>
+			<View style={{width:"20%", flexDirection: "column", alignItems:"center", paddingTop:10}}>
+				<Image style={{height:50, width:50}} resizeMode="center" source={require('../img/user.png')}/>
+				<Text style={{backgroundColor:'transparent', textAlign:'left', paddingBottom:10, fontSize:10}}>{props.appointment.patient.name}</Text>
+			</View>
+			<View style={{width:"60%", alignItems:"center", paddingTop:10}}>
+				<Text style={{fontSize:30}}>{props.appointment.date}</Text>
+			</View>
+			<View style={{width:"20%", flexDirection: "column", alignItems:"center", paddingTop:10}}>
+				<Image style={{height:50, width:50}} resizeMode="center" source={require('../img/doctor.png')}/>
+				<Text style={{backgroundColor:'transparent', textAlign:'left', paddingBottom:10, fontSize:10}}>{props.appointment.doctor.name}</Text>
+			</View>
+		</View>
+		<View style={styles.section}>
+			<View>
+				<Text style={styles.sectionHeader}>
+					Vitals
+				</Text>
+			</View>
+			<View style={styles.vitals}>
+				<Text>Height</Text>
+			</View>
+			<View>
+				<Text>Width:100</Text>
+			</View>
+		</View>
+		<View style={styles.section}>
+			<View>
+				<Text style={styles.sectionHeader}>
+					Notes
+				</Text>
+			</View>
+			<Text>Bedrest for 2 weeks.</Text>
 		</View>
 	</View>
 );
@@ -47,7 +88,7 @@ class AppointmentScreen extends Component {
 	
 	render() {
 		return (
-				<DumbAppointmentScreen/>
+			this.props.appointment?<DumbAppointmentScreen appointment={this.props.appointment}/> : null
 		);
     }
 }
@@ -55,8 +96,7 @@ class AppointmentScreen extends Component {
 const mapStateToProps = state => ({
 	show: state.showAbout,
 	fbInfo: state.fbInfo,
-	inventory: state.inventory,
-	noLocation: state.noLocation
+	appointment: state.appointmentStore.appointment
 })
 
 const mapDispatchToProps = (dispatch) => ({

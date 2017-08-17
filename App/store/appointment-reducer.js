@@ -1,7 +1,6 @@
 
 const defaultState = {
   appointments: [],
-  appointment: {},
   loading: false,
   reload: false,
   errors: {}
@@ -9,6 +8,12 @@ const defaultState = {
 
 export default (state=defaultState, action={}) => {
   switch (action.type) {
+  	case 'SHOW_APPOINTMENT': {
+      return {
+        ...state,
+        appointment: action.appointment
+      }
+    }
     case 'FETCH_APPOINTMENTS': {
       return {
         ...state,
